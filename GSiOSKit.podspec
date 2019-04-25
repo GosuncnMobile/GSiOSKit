@@ -25,7 +25,7 @@ iOS Common Library
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'zoelam020@gmail.com' => 'zoelam020@gmail.com' }
-  s.source           = { :git => 'https://github.com/zoelam020@gmail.com/GSiOSKit.git', :tag => s.version.to_s }
+  s.source           = { :git => 'https://github.com/GosuncnMobile/GSiOSKit.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
   s.ios.deployment_target = '10.0'
