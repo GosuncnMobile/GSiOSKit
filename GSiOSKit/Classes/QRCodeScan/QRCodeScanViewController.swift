@@ -12,6 +12,7 @@ import UIKit
 import SnapKit
 import AVFoundation
 import RxSwift
+import RxCocoa
 
 public class QRCodeScanViewController : UIViewController {
     
@@ -103,6 +104,7 @@ public class QRCodeScanViewController : UIViewController {
             maker.centerX.equalToSuperview()
             maker.bottom.equalToSuperview().multipliedBy(0.9)
         }
+        
         flashLightBtn.rx.tap.subscribe(onNext: {[weak self] _ in
             self?.switchTorch()
         }).disposed(by: disposeBag);

@@ -41,7 +41,7 @@ iOS Common Library
   s.swift_version = '5.0'
   s.dependency 'RxSwift',    '~> 4.0'
   s.dependency 'RxCocoa',    '~> 4.0'
-  s.dependency 'SnapKit',    '~> 4.0'
+  s.dependency 'SnapKit',    '~> 5.0.0'
   s.dependency 'Kingfisher'
   s.dependency 'Eureka'
 end

@@ -1,27 +1,48 @@
 PODS:
-  - GSiOSKit (0.1.0)
-  - Nimble (7.0.3)
+  - Eureka (5.0.0)
+  - GSiOSKit (0.1.0):
+    - Eureka
+    - Kingfisher
+    - RxCocoa (~> 4.0)
+    - RxSwift (~> 4.0)
+    - SnapKit (~> 5.0.0)
+  - Kingfisher (5.4.0)
+  - Nimble (8.0.1)
   - Quick (1.2.0)
+  - RxCocoa (4.5.0):
+    - RxSwift (>= 4.4.2, ~> 4.4)
+  - RxSwift (4.5.0)
+  - SnapKit (5.0.0)
 
 DEPENDENCIES:
   - GSiOSKit (from `../`)
-  - Nimble (~> 7.0.2)
+  - Nimble (~> 8.0.0)
   - Quick (~> 1.2.0)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
+    - Eureka
+    - Kingfisher
     - Nimble
     - Quick
+    - RxCocoa
+    - RxSwift
+    - SnapKit
 
 EXTERNAL SOURCES:
   GSiOSKit:
     :path: "../"
 
 SPEC CHECKSUMS:
-  GSiOSKit: 8f5c53e23e8606ea9f40dee709c89e67f56b2c22
-  Nimble: 7f5a9c447a33002645a071bddafbfb24ea70e0ac
+  Eureka: 0f64f477ec8ef6201c6fec143d60ff5c201cf654
+  GSiOSKit: c5fa416773c524246bef8255007df2940f65353c
+  Kingfisher: 9c8f2cc6710334e06f32ba2b45e77707d5e2f0c9
+  Nimble: 45f786ae66faa9a709624227fae502db55a8bdd0
   Quick: 58d203b1c5e27fff7229c4c1ae445ad7069a7a08
+  RxCocoa: cbf70265dc65a981d4ac982e513c10cf23df24a0
+  RxSwift: f172070dfd1a93d70a9ab97a5a01166206e1c575
+  SnapKit: fd22d10eb9aff484d79a8724eab922c1ddf89bcf
 
-PODFILE CHECKSUM: 43c6362eeffa8e7eaf607fb5c0ad9dc9e4894b77
+PODFILE CHECKSUM: 3a0a80ce3413907a4784350fe6ee58dccf539415
 
 COCOAPODS: 1.6.1
