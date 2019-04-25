@@ -30,7 +30,7 @@
 /* Begin PBXFileReference section */
 		1B944F8AB05802EBF4FCAA87 /* Pods-GSiOSKit_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GSiOSKit_Tests.release.xcconfig"; path = "Target Support Files/Pods-GSiOSKit_Tests/Pods-GSiOSKit_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		22B13DBC41F0E1DA188EACF5 /* Pods-GSiOSKit_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GSiOSKit_Example.debug.xcconfig"; path = "Target Support Files/Pods-GSiOSKit_Example/Pods-GSiOSKit_Example.debug.xcconfig"; sourceTree = "<group>"; };
-		5BC8E47B0484E74E12BE95C4 /* GSiOSKit.podspec */ = {isa = PBXFileReference; includeInIndex = 1; name = GSiOSKit.podspec; path = ../GSiOSKit.podspec; sourceTree = "<group>"; };
+		5BC8E47B0484E74E12BE95C4 /* GSiOSKit.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = GSiOSKit.podspec; path = ../GSiOSKit.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		607FACD01AFB9204008FA782 /* GSiOSKit_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GSiOSKit_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD41AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACD51AFB9204008FA782 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -41,8 +41,8 @@
 		607FACE51AFB9204008FA782 /* GSiOSKit_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GSiOSKit_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACEB1AFB9204008FA782 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
-		8A05E12E2F1312F47C72A906 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
-		903AA53868021EE635DADBA5 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		8A05E12E2F1312F47C72A906 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
+		903AA53868021EE635DADBA5 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		912F1D9F7BCA57B4B91B933D /* Pods-GSiOSKit_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GSiOSKit_Tests.debug.xcconfig"; path = "Target Support Files/Pods-GSiOSKit_Tests/Pods-GSiOSKit_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		B19DBA5C2E4FEAD634840C96 /* Pods-GSiOSKit_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GSiOSKit_Example.release.xcconfig"; path = "Target Support Files/Pods-GSiOSKit_Example/Pods-GSiOSKit_Example.release.xcconfig"; sourceTree = "<group>"; };
 		CE288DB0433CF2924A4779FF /* Pods_GSiOSKit_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GSiOSKit_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -77,7 +77,6 @@
 				912F1D9F7BCA57B4B91B933D /* Pods-GSiOSKit_Tests.debug.xcconfig */,
 				1B944F8AB05802EBF4FCAA87 /* Pods-GSiOSKit_Tests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -228,6 +227,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);

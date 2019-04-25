@@ -1,0 +1,27 @@
+PODS:
+  - GSiOSKit (0.1.0)
+  - Nimble (7.0.3)
+  - Quick (1.2.0)
+
+DEPENDENCIES:
+  - GSiOSKit (from `../`)
+  - Nimble (~> 7.0.2)
+  - Quick (~> 1.2.0)
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - Nimble
+    - Quick
+
+EXTERNAL SOURCES:
+  GSiOSKit:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  GSiOSKit: 8f5c53e23e8606ea9f40dee709c89e67f56b2c22
+  Nimble: 7f5a9c447a33002645a071bddafbfb24ea70e0ac
+  Quick: 58d203b1c5e27fff7229c4c1ae445ad7069a7a08
+
+PODFILE CHECKSUM: 43c6362eeffa8e7eaf607fb5c0ad9dc9e4894b77
+
+COCOAPODS: 1.6.1
