@@ -84,17 +84,13 @@ public class QRCodeScanViewController : UIViewController {
             maker.height.equalTo(scanView.snp.width)
         }
         topSpace.snp.makeConstraints { (maker) in
-            maker.height.equalToSuperview().multipliedBy(0.3)
+            maker.height.equalToSuperview().multipliedBy(0.2)
         }
-        setUpFlashLight()
 
     }
     
     
     func setUpFlashLight() {
-        if (device == nil ||  device!.hasFlash || device!.hasTorch){
-            return
-        }
         //手电筒
         view.addSubview(flashLightBtn)
         flashLightBtn.setTitle("手电筒:关", for: .normal)
@@ -102,7 +98,7 @@ public class QRCodeScanViewController : UIViewController {
         flashLightBtn.setTitleColor(UIColor.white, for: .normal)
         flashLightBtn.snp.makeConstraints { (maker) in
             maker.centerX.equalToSuperview()
-            maker.bottom.equalToSuperview().multipliedBy(0.9)
+            maker.bottom.equalToSuperview().offset(-48)
         }
         
         flashLightBtn.rx.tap.subscribe(onNext: {[weak self] _ in
@@ -111,6 +107,10 @@ public class QRCodeScanViewController : UIViewController {
     }
     
     func switchTorch()  {
+        if (device == nil ||  device!.hasTorch){
+            
+            return
+        }
         do
         {
             try input?.device.lockForConfiguration()
@@ -199,7 +199,7 @@ public class QRCodeScanViewController : UIViewController {
             maker.width.equalTo(scanBorderWidth)
             maker.height.equalToSuperview().multipliedBy(0.2)
         }
-        scanAnimation = QRCodeScanAnimation(scanView: scanView)
+        scanAnimation = QRCodeScanAnimation(scanView: scanView,color: scanTintcolor)
         return scanView
     }
     
@@ -239,7 +239,7 @@ public class QRCodeScanViewController : UIViewController {
             session.addOutput(photoOutput)
         }
         setUpPreView(preview)
-        
+        setUpFlashLight()
     }
     
     func setUpPreView(_ preview: UIView) {
