@@ -33,9 +33,14 @@ public class QRCodeScanViewController : UIViewController {
         setUpScan(preview: self.view)
         session.startRunning()
         scanAnimation?.startAnimation()
+        setUpCustomUI()
     }
     
     //MARK: - UI
+    //自定义UI,给子类复写用a
+    open func setUpCustomUI() {
+        
+    }
     open func setUpUI() {
         self.view.backgroundColor = UIColor.white
         self.navigationItem.title  = navigationTitle
