@@ -19,7 +19,7 @@ import AppKit
 infix operator <-> : DefaultPrecedence
 
 #if os(iOS)
-func nonMarkedText(_ textInput: UITextInput) -> String? {
+public func nonMarkedText(_ textInput: UITextInput) -> String? {
     let start = textInput.beginningOfDocument
     let end = textInput.endOfDocument
 
@@ -40,7 +40,7 @@ func nonMarkedText(_ textInput: UITextInput) -> String? {
     return (textInput.text(in: startRange) ?? "") + (textInput.text(in: endRange) ?? "")
 }
 
-func <-> <Base>(textInput: TextInput<Base>, relay: BehaviorRelay<String>) -> Disposable {
+public func <-> <Base>(textInput: TextInput<Base>, relay: BehaviorRelay<String>) -> Disposable {
     let bindToUIDisposable = relay.bind(to: textInput.text)
 
     let bindToRelay = textInput.text
@@ -73,7 +73,7 @@ func <-> <Base>(textInput: TextInput<Base>, relay: BehaviorRelay<String>) -> Dis
 }
 #endif
 
-func <-> <T>(property: ControlProperty<T>, relay: BehaviorRelay<T>) -> Disposable {
+public func <-> <T>(property: ControlProperty<T>, relay: BehaviorRelay<T>) -> Disposable {
     if T.self == String.self {
 #if DEBUG && !os(macOS)
         fatalError("It is ok to delete this message, but this is here to warn that you are maybe trying to bind to some `rx.text` property directly to relay.\n" +

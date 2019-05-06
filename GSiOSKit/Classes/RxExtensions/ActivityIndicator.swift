@@ -13,7 +13,7 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-private struct ActivityToken<E> : ObservableConvertibleType, Disposable {
+public struct ActivityToken<E> : ObservableConvertibleType, Disposable {
     private let _source: Observable<E>
     private let _dispose: Cancelable
 
@@ -22,11 +22,11 @@ private struct ActivityToken<E> : ObservableConvertibleType, Disposable {
         _dispose = Disposables.create(with: disposeAction)
     }
 
-    func dispose() {
+    public func dispose() {
         _dispose.dispose()
     }
 
-    func asObservable() -> Observable<E> {
+    public func asObservable() -> Observable<E> {
         return _source
     }
 }
@@ -77,8 +77,8 @@ public class ActivityIndicator : SharedSequenceConvertibleType {
     }
 }
 
-extension ObservableConvertibleType {
-    public func trackActivity(_ activityIndicator: ActivityIndicator) -> Observable<E> {
+public extension ObservableConvertibleType {
+    func trackActivity(_ activityIndicator: ActivityIndicator) -> Observable<E> {
         return activityIndicator.trackActivityOfObservable(self)
     }
 }
