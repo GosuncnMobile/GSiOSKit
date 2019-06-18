@@ -30,12 +30,51 @@ public class QRCodeScanViewController : UIViewController {
     override public func viewDidLoad() {
         super.viewDidLoad();
         setUpUI()
-        setUpScan(preview: self.view)
-        session.startRunning()
+        checkAuthorized()
         scanAnimation?.startAnimation()
         setUpCustomUI()
     }
+    //MARK: - Bussiness
     
+    func checkAuthorized(){
+        print("checkAuthorized")
+        switch AVCaptureDevice.authorizationStatus(for: .video) {
+        case .denied:
+            showCameraAlert()
+        case .authorized:
+            setUpScan(preview: self.view)
+            session.startRunning()
+        default:
+            setUpScan(preview: self.view)
+            session.startRunning()
+        }
+    }
+    
+    func showCameraAlert(){
+        print("showCameraAlert")
+        let alertVC = UIAlertController.init(title: "请打开摄像头权限", message: "二维码扫描需要摄像头权限", preferredStyle: .alert)
+        alertVC.addAction(UIAlertAction.init(title: "确定", style: .default, handler: { [weak self](action) in
+            self?.openCameraAuthorized()
+        }))
+        alertVC.addAction(UIAlertAction.init(title: "返回", style: .default, handler: { [weak self](action) in
+            self?.navigationController?.popViewController(animated: true)
+        }))
+        present(alertVC, animated: true, completion: nil)
+    }
+    
+    func openCameraAuthorized(){
+        guard let settingsURL = URL(string: UIApplication.openSettingsURLString) else{
+            return
+        }
+        if UIApplication.shared.canOpenURL(settingsURL) {
+            if #available(iOS 10, *){
+                UIApplication.shared.open(settingsURL, options: [:]) { [weak self](isSuccess) in
+                   self?.checkAuthorized()
+                }
+            }
+        }
+        
+    }
     //MARK: - UI
     //自定义UI,给子类复写用a
     open func setUpCustomUI() {
@@ -112,8 +151,10 @@ public class QRCodeScanViewController : UIViewController {
     }
     
     func switchTorch()  {
-        if (device == nil ||  device!.hasTorch){
-            
+        print("switchTorch")
+        if (device == nil ||  !device!.hasTorch){
+             showScanHUD(message: "无法打开闪光灯")
+            print("device == nil ||  device!.hasTorch")
             return
         }
         do
@@ -124,7 +165,7 @@ public class QRCodeScanViewController : UIViewController {
             input?.device.unlockForConfiguration()
         }
         catch let error as NSError {
-            print("device.lockForConfiguration(): \(error)")
+            showScanHUD(message: error.localizedDescription)
             
         }
     
@@ -224,14 +265,20 @@ public class QRCodeScanViewController : UIViewController {
     
     
     func setUpScan(preview: UIView) {
+        
         do{
             input = try AVCaptureDeviceInput(device: device!)
         }catch let error as NSError{
-            print("error\(error)")
+            showScanHUD(message: error.localizedDescription)
+            return
         }
         
-        if session.canAddInput(input!){
-            session.addInput(input!)
+        guard let input = input else {
+            showScanHUD(message: "无法打开摄像头")
+            return
+        }
+        if session.canAddInput(input){
+            session.addInput(input)
         }
         
         if session.canAddOutput(output){
@@ -284,6 +331,15 @@ extension QRCodeScanViewController : AVCaptureMetadataOutputObjectsDelegate{
             return ""
         }
         return  result.messageString ?? ""
+    }
+    
+    open func showScanHUD(isSuccess:Bool = false,message:String?){
+        let alertVC = UIAlertController.init(title: message, message: nil, preferredStyle: .alert)
+        alertVC.addAction(UIAlertAction.init(title: "返回", style: .default, handler: { [weak self](action) in
+            self?.navigationController?.popViewController(animated: true)
+        }))
+        present(alertVC, animated: true, completion: nil)
+
     }
     
 }
