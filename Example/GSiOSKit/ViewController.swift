@@ -23,7 +23,7 @@ class ViewController: FormViewController {
                     self.navigationController?.pushViewController(QRCodeScanViewController(), animated: true)
                 })
             <<< GirdImageRow(){ row in
-                row.tag = "address"
+                row.tag = "address" 
                 row.title = "地址"
                 row.value = NSMutableArray()
                 row.value?.add(URL(string: "http://www/vancheerfile/images/2019/2/20190221105546911.jpg"))
@@ -31,6 +31,12 @@ class ViewController: FormViewController {
                 row.value?.add(GridUrl(girdUrl: "http://www/vancheerfile/images/2019/2/20190221105546911.jpg"))
                 
         }
+            <<< ButtonRow(){
+                $0.title = "ImagePicker"
+                $0.tag = "ImagePicker"
+                }.onCellSelection({ (row, row1) in
+                    self.navigationController?.pushViewController(GSImagePickerViewController(), animated: true)
+                })
         // Do any additional setup after loading the view, typically from a nib.
     }
 

@@ -18,6 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window = UIWindow.init(frame: UIScreen.main.bounds);
         let rootVC = ViewController();
         let navVC = UINavigationController(rootViewController: rootVC);
+        navVC.navigationBar.isTranslucent = false
         self.window?.rootViewController = navVC;
         self.window?.makeKeyAndVisible();
         return true
