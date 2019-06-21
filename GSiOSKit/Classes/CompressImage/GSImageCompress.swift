@@ -13,7 +13,7 @@ import UIKit
 extension UIImage{
     //仿微信策略,压缩图片成jpg
     //参考:https://github.com/ssj1314/SSJImage-Scan
-    public func gs_compressImage(maxPx : Double = 1280,maxDataLength : Int = 204800) -> Data? {
+    public func gs_compressImage(maxPx : Double = 1080,maxDataLength : Int = 204800) -> Data? {
         var newImage :UIImage? = nil
         
         let width = Double(self.size.width)
@@ -66,9 +66,15 @@ extension UIImage{
         //但是项目中不需要这么严格要求,所以简单制定一个策略,避免消耗太多性能
         if jpgData.count <= maxDataLength{
             return jpgData
-        }else if jpgData.count <= (maxDataLength * 2){
-            return resultImage.jpegData(compressionQuality: 0.8)
+        }else if jpgData.count <= (maxDataLength * 3){
+            return resultImage.jpegData(compressionQuality: 0.4)
         }
-        return resultImage.jpegData(compressionQuality: 0.5)
+        return resultImage.jpegData(compressionQuality: 0.1)
     }
+    
+}
+
+public enum GSImageContentType : String {
+    case jpeg = "jpeg"
+    case png = "png"
 }

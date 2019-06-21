@@ -14,13 +14,24 @@ public class GSImagePicker: NSObject {
     private let pickerController: UIImagePickerController
     private weak var presentationController: UIViewController?
     private var resultHandler : ((UIImage?) -> Void)?
+    private var isAllowPng = false//是否允许选择png
+    private var isCompress = true//是否压缩
     
-    public init(presentationController: UIViewController) {
+    /// 新建图片选择器
+    ///
+    /// - Parameters:
+    ///   - presentationController: 一般为
+    ///   - isAllowPng: 是否允许选择PNG图片
+    ///   - isAllowsEditing: 是否允许编辑
+    ///   - isCompress: 是否进行压缩
+    public init(presentationController: UIViewController, isAllowPng:Bool = false,isAllowsEditing:Bool = false,isCompress :Bool = true) {
         self.pickerController = UIImagePickerController()
         super.init()
         self.presentationController = presentationController
         self.pickerController.delegate = self
-        self.pickerController.allowsEditing = false
+        self.pickerController.allowsEditing = isAllowsEditing
+        self.isAllowPng = isAllowPng
+        self.isCompress = isCompress
     }
     private func action(for type: UIImagePickerController.SourceType, title: String) -> UIAlertAction? {
         guard UIImagePickerController.isSourceTypeAvailable(type) else {
@@ -48,24 +59,44 @@ public class GSImagePicker: NSObject {
         self.presentationController?.present(alertController, animated: true)
     }
     
+    func showAlert(message:String) {
+        let alertVC = UIAlertController.init(title: "", message: message, preferredStyle: .alert)
+        alertVC.addAction(UIAlertAction.init(title: "确定", style: .default, handler:nil))
+        pickerController.present(alertVC, animated: true, completion: nil)
+    }
     
+    func didSelectImage(image:UIImage){
+//        if !isAllowPng, image.pngData() != nil{
+//            showAlert(message: "不支持png格式的图片")
+//            return
+//        }
+        if isCompress,let compressData = image.gs_compressImage(),let compressImage = UIImage.init(data: compressData){
+            resultHandler?(compressImage)
+        }else{
+            resultHandler?(image)
+        }
+        pickerController.dismiss(animated: true, completion: nil)
+    }
 }
 
 extension GSImagePicker : UIImagePickerControllerDelegate{
     public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        picker.dismiss(animated: true, completion: nil)
+        if !isAllowPng,picker.sourceType != .camera ,let referenceURL = info[.referenceURL] as? URL,
+            referenceURL.absoluteString.contains(".png"){
+            showAlert(message: "不支持png格式的图片")
+            return
+        }
         if (picker.allowsEditing) {
             guard let  image = info[.editedImage] as? UIImage else{
                 return
             }
-            resultHandler?(image)
+              didSelectImage(image: image)
         }else {
             guard let  image = info[.originalImage] as? UIImage else{
                 return
             }
-            resultHandler?(image)
+          didSelectImage(image: image)
         }
-        
     }
     
     public func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
