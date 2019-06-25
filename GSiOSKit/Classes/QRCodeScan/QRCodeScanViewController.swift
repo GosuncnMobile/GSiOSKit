@@ -24,7 +24,7 @@ public class QRCodeScanViewController : UIViewController {
     var scanAnimation : QRCodeScanAnimation?
     public let tipLabel = UILabel()
     public let flashLightBtn = UIButton()
-    
+    private var hadReturn = false//是否已经返回过了
     let disposeBag = DisposeBag()
     
     override public func viewDidLoad() {
@@ -37,14 +37,16 @@ public class QRCodeScanViewController : UIViewController {
     //MARK: - Bussiness
     
     func checkAuthorized(){
-        print("checkAuthorized")
         switch AVCaptureDevice.authorizationStatus(for: .video) {
         case .denied:
+             print("checkAuthorized denied")
             showCameraAlert()
         case .authorized:
+             print("checkAuthorized authorized")
             setUpScan(preview: self.view)
             session.startRunning()
         default:
+            print("checkAuthorized default")
             setUpScan(preview: self.view)
             session.startRunning()
         }
@@ -309,13 +311,18 @@ public class QRCodeScanViewController : UIViewController {
 }
 extension QRCodeScanViewController : AVCaptureMetadataOutputObjectsDelegate{
     public func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection){
+        if hadReturn{
+            return
+        }
         for scanResult in metadataObjects {
             guard let readablResult = scanResult as? AVMetadataMachineReadableCodeObject else{
                 return
             }
             let codeType = readablResult.type
             if let codeContent = readablResult.stringValue , codeContent.count > 0{
+                hadReturn = true
                 scanResultObservable.onNext(codeContent)
+                scanResultObservable.onCompleted()
                 self.navigationController?.popViewController(animated: true)
             }
             

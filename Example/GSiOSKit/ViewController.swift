@@ -20,7 +20,11 @@ class ViewController: FormViewController {
                 $0.title = "QRScan"
                 $0.tag = "QRScan"
                 }.onCellSelection({ (row, row1) in
-                    self.navigationController?.pushViewController(QRCodeScanViewController(), animated: true)
+                    let scanViewController = QRCodeScanViewController.init()
+                    scanViewController.scanResultObservable.subscribe(onNext: { (result) in
+                        print("扫描结果:\(result)")
+                    })
+                    self.navigationController?.pushViewController(scanViewController, animated: true)
                 })
             <<< GirdImageRow(){ row in
                 row.tag = "address" 
