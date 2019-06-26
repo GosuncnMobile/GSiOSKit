@@ -25,6 +25,7 @@ public class QRCodeScanViewController : UIViewController {
     public let tipLabel = UILabel()
     public let flashLightBtn = UIButton()
     private var hadReturn = false//是否已经返回过了
+    private var hadReturnLock = NSLock()//是否已经返回过了
     let disposeBag = DisposeBag()
     
     override public func viewDidLoad() {
@@ -314,20 +315,26 @@ extension QRCodeScanViewController : AVCaptureMetadataOutputObjectsDelegate{
         if hadReturn{
             return
         }
+        if !hadReturnLock.try(){
+            return
+        }
         for scanResult in metadataObjects {
             guard let readablResult = scanResult as? AVMetadataMachineReadableCodeObject else{
-                return
+                continue
             }
-            let codeType = readablResult.type
+//            let codeType = readablResult.type
             if let codeContent = readablResult.stringValue , codeContent.count > 0{
                 hadReturn = true
                 scanResultObservable.onNext(codeContent)
                 scanResultObservable.onCompleted()
                 self.navigationController?.popViewController(animated: true)
+                hadReturnLock.unlock()
+                return
             }
             
-          
         }
+        hadReturnLock.unlock()
+        return
     }
     
     public func detectImage(inputImage : UIImage) -> String{
