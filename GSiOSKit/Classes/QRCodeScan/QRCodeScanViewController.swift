@@ -312,6 +312,9 @@ public class QRCodeScanViewController : UIViewController {
 }
 extension QRCodeScanViewController : AVCaptureMetadataOutputObjectsDelegate{
     public func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection){
+        if metadataObjects.count > 0{
+            session.stopRunning()
+        }
         if hadReturn{
             return
         }
@@ -322,7 +325,6 @@ extension QRCodeScanViewController : AVCaptureMetadataOutputObjectsDelegate{
             guard let readablResult = scanResult as? AVMetadataMachineReadableCodeObject else{
                 continue
             }
-//            let codeType = readablResult.type
             if let codeContent = readablResult.stringValue , codeContent.count > 0{
                 hadReturn = true
                 scanResultObservable.onNext(codeContent)
@@ -334,6 +336,7 @@ extension QRCodeScanViewController : AVCaptureMetadataOutputObjectsDelegate{
             
         }
         hadReturnLock.unlock()
+        session.startRunning()
         return
     }
     

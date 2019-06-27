@@ -70,8 +70,10 @@ public class GSImagePicker: NSObject {
 //            showAlert(message: "不支持png格式的图片")
 //            return
 //        }
-        if isCompress,let compressData = image.gs_compressImage(),let compressImage = UIImage.init(data: compressData){
-            resultHandler?(compressImage)
+      //  print("\(image.imageOrientation.rawValue)")
+        if isCompress,let compressImage = image.gs_compressImage(){
+           // print("\(compressImage.imageOrientation.rawValue)")
+            resultHandler?(compressImage.fixOrientation())
         }else{
             resultHandler?(image)
         }

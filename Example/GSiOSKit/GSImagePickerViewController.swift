@@ -35,12 +35,11 @@ class GSImagePickerViewController: UIViewController {
     
     func setCompressImage(source:UIImage){
         print("\(source.size.width),\(source.size.height),\(source.jpegData(compressionQuality: 1)?.count)")
-        guard  let comData = source.gs_compressImage() else {
+        guard  let compressImage = source.gs_compressImage() else {
             return
         }
-        let comImage = UIImage.init(data: comData)
-        print("\(comImage?.size.width),\(comImage?.size.height),\(comData.count)")
-        compressImageV.image = comImage
+        print("\(compressImage.size.width),\(compressImage.size.height),\(compressImage.jpegData(compressionQuality: 1)?.count)")
+        compressImageV.image = compressImage
     }
     
     let imagePickerButton = UIButton.init(type: .roundedRect)
