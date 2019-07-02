@@ -47,7 +47,7 @@ public class WhiteBackgroundFlowLayout: UICollectionViewFlowLayout {
 //        return layoutAttributes
 //    }
 //    
-    override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
+    override public func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
         guard let attributes = super.layoutAttributesForElements(in: rect) else{
             return nil
         }
