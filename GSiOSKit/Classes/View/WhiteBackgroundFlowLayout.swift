@@ -20,7 +20,7 @@ class WhiteBackgroundCollectionReusableView: UICollectionReusableView {
     
 }
 public class WhiteBackgroundFlowLayout: UICollectionViewFlowLayout {
-    override init() {
+    public override init() {
         super.init()
         register(WhiteBackgroundCollectionReusableView.self, forDecorationViewOfKind: "WhiteBackgroundCollectionReusableView")
     }

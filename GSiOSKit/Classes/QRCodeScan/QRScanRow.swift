@@ -12,9 +12,9 @@ import SnapKit
 import RxSwift
 import RxCocoa
 
-public class QRScanCell: _FieldCell<String>, CellType {
+open class QRScanCell: _FieldCell<String>, CellType {
     
-    let sendBtn : UIButton = {
+    public let sendBtn : UIButton = {
         let btn = UIButton()
         return btn
     }()
@@ -60,6 +60,7 @@ public class QRScanCell: _FieldCell<String>, CellType {
     
     open func setUPQRCodeScanViewController() -> QRCodeScanViewController {
         let scanViewController = QRCodeScanViewController.init()
+        sendBtn.setTitle("扫描", for: .normal)
         return scanViewController
     }
     
