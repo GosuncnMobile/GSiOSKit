@@ -15,7 +15,7 @@ public class PhotoPreviewViewController: UIViewController {
     let photoPreviewView = PhotoPreviewView()
     var imagesource : Any?
     
-   convenience init(imagesource:Any) {
+   public convenience init(imagesource:Any) {
         self.init()
         self.imagesource = imagesource
     }

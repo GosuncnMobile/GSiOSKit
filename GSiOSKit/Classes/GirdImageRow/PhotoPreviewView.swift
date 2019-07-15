@@ -10,7 +10,7 @@
 import UIKit
 import SnapKit
 
-class PhotoPreviewView: UIView {
+public class PhotoPreviewView: UIView {
     private let scrollView = UIScrollView()
     public let imageView = UIImageView()
     
@@ -72,7 +72,7 @@ class PhotoPreviewView: UIView {
 
 extension PhotoPreviewView : UIScrollViewDelegate{
     
-    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+    public func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         return self.imageView
     }
     
