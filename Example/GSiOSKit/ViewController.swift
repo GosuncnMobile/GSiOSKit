@@ -26,20 +26,30 @@ class ViewController: FormViewController {
                     })
                     self.navigationController?.pushViewController(scanViewController, animated: true)
                 })
-            <<< GirdImageRow(){ row in
-                row.tag = "address" 
-                row.title = "地址"
+            <<< ShowGirdImageRow(){ row in
+                row.tag = "ShowGirdImageRow"
+                row.title = "展示图片"
                 row.value = NSMutableArray()
                 row.value?.add(URL(string: "http://www/vancheerfile/images/2019/2/20190221105546911.jpg"))
                 row.value?.add(GridUrl(girdUrl: "http://www/vancheerfile/images/2019/2/20190221105546911.jpg"))
                 row.value?.add(GridUrl(girdUrl: "http://www/vancheerfile/images/2019/2/20190221105546911.jpg"))
                 
         }
+            <<< GirdImageRow(){row in
+                row.tag = "GirdImageRow"
+                row.title = "选择图片"
+            }
             <<< ButtonRow(){
                 $0.title = "ImagePicker"
                 $0.tag = "ImagePicker"
                 }.onCellSelection({ (row, row1) in
                     self.navigationController?.pushViewController(GSImagePickerViewController(), animated: true)
+                })
+            <<< ButtonRow(){
+                $0.title = "PhotosPreview"
+                $0.tag = "PhotosPreview"
+                }.onCellSelection({ (row, row1) in
+                    self.navigationController?.pushViewController(PhotosPreviewViewController.init(dateSource: ["http://www/vancheerfile/images/2019/2/20190221105546911.jpg","http://www/vancheerfile/images/2019/2/20190221105546911.jpg","http://www/vancheerfile/images/2019/2/20190221105546911.jpg"], currentPage: 1, title: "PhotosPreview"), animated: true)
                 })
         // Do any additional setup after loading the view, typically from a nib.
     }

@@ -1,25 +1,21 @@
 //
-// GirdImageCell.swift 
-// SwiftDemo 
-// 
-// Created by Linzy on 2019/4/9. 
-// Copyright © 2019 Gosuncn. All rights reserved.
-// 
-
+//  ShowGirdImageRow.swift
+//  GSiOSKit
+//  用于显示图片,会随着图片数目变换排版方式
+//  [ 1 ]
+//  -----------------
+//  [1 2]
+//  [3 4]
+//  -----------------
+//  [1 2 3]
+//  [4 5 6]
+//  [7 8 9]
+//  Created by Linzy on 2019/7/17.
+//
 
 import Foundation
 import Eureka
-import SnapKit
-
-
-
-extension URL : GirdImageRowDateSource{
-    public func setGirdImageView(imageView: UIImageView) {
-        imageView.kf.setImage(with: self)
-    }
-}
-
-public final class GridImageCell : Cell<NSMutableArray>, UICollectionViewDataSource,UICollectionViewDelegate,CellType {
+public final class ShowGridImageCell : Cell<NSMutableArray>, UICollectionViewDataSource,UICollectionViewDelegate,CellType {
     let screenWidth = UIScreen.main.bounds.size.width
     
     required public init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -134,7 +130,7 @@ public final class GridImageCell : Cell<NSMutableArray>, UICollectionViewDataSou
     
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let datasource = row.value?.object(at: indexPath.row) else{
-           return
+            return
         }
         guard let rootVC = UIApplication.shared.keyWindow?.rootViewController else{
             print("rootVC nil")
@@ -146,7 +142,7 @@ public final class GridImageCell : Cell<NSMutableArray>, UICollectionViewDataSou
         }
         guard let natVC = topVC as? UINavigationController else {
             let natVC = UINavigationController(rootViewController: PhotoPreviewViewController(imagesource: datasource))
-                  natVC.pushViewController(PhotoPreviewViewController(imagesource: datasource), animated: true)
+            natVC.pushViewController(PhotoPreviewViewController(imagesource: datasource), animated: true)
             return
         }
         natVC.pushViewController(PhotoPreviewViewController(imagesource: datasource), animated: true)
@@ -155,3 +151,20 @@ public final class GridImageCell : Cell<NSMutableArray>, UICollectionViewDataSou
     
     
 }
+
+
+public final class ShowGirdImageRow : Row<ShowGridImageCell>,RowType{
+    
+    public required init(tag: String?) {
+        super.init(tag: tag)
+        cellProvider = CellProvider<ShowGridImageCell>.init()
+        self.value = NSMutableArray()
+    }
+    
+    public override func updateCell() {
+        super.updateCell()
+    }
+    
+    
+}
+

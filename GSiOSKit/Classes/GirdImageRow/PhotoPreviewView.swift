@@ -10,9 +10,14 @@
 import UIKit
 import SnapKit
 
+public protocol PhotoPreviewViewDelegate : NSObjectProtocol {
+    func tapNoZoom()
+}
+
 public class PhotoPreviewView: UIView {
     private let scrollView = UIScrollView()
     public let imageView = UIImageView()
+    public var photoPreviewDelegate : PhotoPreviewViewDelegate?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -23,6 +28,10 @@ public class PhotoPreviewView: UIView {
         let tap2 = UITapGestureRecognizer(target: self, action: #selector(doubleTap))
         tap2.numberOfTapsRequired = 2
         self.addGestureRecognizer(tap2)
+        
+        let tap1 = UITapGestureRecognizer(target: self, action: #selector(tapNoZoom))
+        tap1.numberOfTapsRequired = 1
+        self.addGestureRecognizer(tap1)
     }
     
     @objc func doubleTap(tap:UITapGestureRecognizer) {
@@ -31,6 +40,12 @@ public class PhotoPreviewView: UIView {
         let ySize = self.frame.size.width / 2;
         let tranRect = CGRect(x: centerPoint.x - xSize/2, y: centerPoint.y - ySize/2, width: xSize, height: ySize)
         scrollView.zoom(to:tranRect , animated: true)
+    }
+    
+    @objc func tapNoZoom(tap:UITapGestureRecognizer) {
+        if scrollView.zoomScale == 1 {
+            photoPreviewDelegate?.tapNoZoom()
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -53,7 +68,6 @@ public class PhotoPreviewView: UIView {
         scrollView.canCancelContentTouches = true
         scrollView.alwaysBounceVertical = false
         scrollView.delegate = self
-        
     }
     
     func setUpImageView() {

@@ -44,4 +44,6 @@ iOS Common Library
   s.dependency 'SnapKit',    '~> 5.0.0'
   s.dependency 'Kingfisher'
   s.dependency 'Eureka'
+  s.dependency 'YPImagePicker',    '~> 4.0.0'
+  
 end

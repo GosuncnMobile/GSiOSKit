@@ -1,10 +1,10 @@
 //
-// GirdImageCollectionCell.swift 
-// SwiftDemo 
-// 
-// Created by Linzy on 2019/4/9. 
+// GirdImageCollectionCell.swift
+// SwiftDemo
+//
+// Created by Linzy on 2019/4/9.
 // Copyright © 2019 Gosuncn. All rights reserved.
-// 
+//
 
 
 import Foundation
@@ -23,14 +23,34 @@ public class GirdImageCollectionCell : UICollectionViewCell{
         fatalError("init(coder:) has not been implemented")
     }
     
+    public func bindViewModel(datasource : GirdImageRowDateSource? = nil,moreCount:Int = 0){
+        datasource?.setGirdImageView(imageView: imageView)
+        if moreCount > 0{
+            moreLabel.isHidden = false
+            moreLabel.text = "+ \(moreCount)"
+        }else{
+            moreLabel.isHidden = true
+        }
+    }
+    
+    let moreLabel = UILabel.init()
     func setUpUI() {
         addSubview(imageView)
         imageView.contentMode = .scaleAspectFill
         imageView.backgroundColor = UIColor.lightGray
         imageView.layer.masksToBounds = true
         imageView.snp.makeConstraints { (maker) in
-            maker.leading.top.equalToSuperview().offset(8)
-            maker.trailing.bottom.equalToSuperview().offset(-8)
+            maker.leading.top.equalToSuperview()
+            maker.trailing.bottom.equalToSuperview()
         }
+        addSubview(moreLabel)
+        moreLabel.textColor = UIColor.white
+        moreLabel.backgroundColor = UIColor.init(white: 0, alpha: 0.5)
+        moreLabel.textAlignment = .center
+        moreLabel.snp.makeConstraints { (maker) in
+            maker.leading.top.equalToSuperview()
+            maker.trailing.bottom.equalToSuperview()
+        }
+        moreLabel.isHidden = true
     }
 }
