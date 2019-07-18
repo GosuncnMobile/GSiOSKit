@@ -16,6 +16,7 @@ import UIKit
 import SnapKit
 import Kingfisher
 import Eureka
+import Gallery
 
 public final class _GridImageCell : Cell<NSMutableArray>, UICollectionViewDataSource,UICollectionViewDelegate,CellType {
     let screenWidth = UIScreen.main.bounds.size.width
@@ -53,6 +54,7 @@ public final class _GridImageCell : Cell<NSMutableArray>, UICollectionViewDataSo
         flowLayout.sectionInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
         collectView.dataSource = self
         collectView.delegate = self
+        collectView.register(GirdAddImageCollectionCell.self, forCellWithReuseIdentifier: String(describing: GirdAddImageCollectionCell.self))
         collectView.register(GirdImageCollectionCell.self, forCellWithReuseIdentifier: String(describing: GirdImageCollectionCell.self))
     }
     
@@ -63,16 +65,16 @@ public final class _GridImageCell : Cell<NSMutableArray>, UICollectionViewDataSo
         guard let itemcount = row.value?.count else {
             return
         }
-        let itemSize = (screenWidth - 48) / 3
+        let itemSize = (screenWidth - 16) / 3
         switch itemcount {
         case 0...2:
             collectView.snp.updateConstraints { (maker) in
-                maker.height.equalTo(itemSize + 32)
+                maker.height.equalTo(itemSize + 16)
                 maker.width.equalTo(screenWidth)
             }
         case 3...5:
             collectView.snp.updateConstraints { (maker) in
-                maker.height.equalTo(itemSize * 2 + 32)
+                maker.height.equalTo(itemSize * 2 + 16)
                 maker.width.equalTo(screenWidth)
             }
         default:
@@ -106,39 +108,52 @@ public final class _GridImageCell : Cell<NSMutableArray>, UICollectionViewDataSo
     }
     
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectView.dequeueReusableCell(withReuseIdentifier: String(describing: GirdImageCollectionCell.self), for: indexPath) as? GirdImageCollectionCell else{
-            return UICollectionViewCell.init()
-        }
+      
         if indexPath.row == row.value?.count ?? 0{
-            cell.imageView.image = nil
+            guard let cell = collectView.dequeueReusableCell(withReuseIdentifier: String(describing: GirdAddImageCollectionCell.self), for: indexPath) as? GirdAddImageCollectionCell else{
+                return UICollectionViewCell.init()
+            }
+            return cell
         }else{
-            guard let datasource = row.value?.object(at: indexPath.row) else{
+            guard let cell = collectView.dequeueReusableCell(withReuseIdentifier: String(describing: GirdImageCollectionCell.self), for: indexPath) as? GirdImageCollectionCell else{
+                return UICollectionViewCell.init()
+            }
+            guard let datasource = row.value?.object(at: indexPath.row) as? GirdImageRowDateSource else{
                 cell.imageView.image = nil
                 return cell
             }
-            if let url = datasource as? URL{
-                cell.imageView.kf.setImage(with: url)
-            }else if let tImage = datasource as? UIImage{
-                cell.imageView.image = tImage
-            }
-            else if let imageholder = datasource as? GirdImageRowDateSource{
-                imageholder.setGirdImageView(imageView: cell.imageView)
-            }else {
-                print("datasource as not GirdImageRowDateSource")
-            }
+            cell.setDelete(show: true, indexPath: indexPath)
+            cell.girdImageCollectionCellDelegate = self
+            cell.bindViewModel(datasource: datasource, moreCount: 0)
+            return cell
         }  
-        return cell
+        return UICollectionViewCell.init()
     }
     
-    lazy var imagePicker =  GSImagePicker.init(presentationController: UIApplication.shared.getTopUINavigationController() ?? UINavigationController.init())
+
     
+    lazy var imagePicker =  GSImagePicker.init(presentationController: UIApplication.shared.getTopUINavigationController() ?? UINavigationController.init())
+  //  lazy var config = YPImagePickerConfiguration()
+    lazy var galleryController : GalleryController = {
+        let gallery = GalleryController.init()
+        Config.Camera.recordLocation = false
+        Config.tabsToShow = [.imageTab, .cameraTab]
+        Config.Camera.imageLimit = 9
+        Config.initialTab = .imageTab
+        Config.Grid.ArrowButton.tintColor = UIApplication.shared.keyWindow?.tintColor ?? UIColor.blue
+        Config.Grid.FrameView.borderColor = UIApplication.shared.keyWindow?.tintColor ?? UIColor.blue
+      
+        return gallery
+        }()
+    var cacheCart : Cart?
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if indexPath.row == row.value?.count ?? 0{
-             imagePicker.showImagePickerSheet() {[weak self] (result) in
-                self?.row.value?.add(result)
-                self?.update()
-                self?.formViewController()?.tableView.reloadData()
+        if indexPath.row == row.value?.count ?? 0,
+            let topUINavigationController  = UIApplication.shared.getTopUINavigationController(){
+            galleryController.delegate = self
+            if let cacheImages = cacheCart?.images{
+                galleryController.cart.reload(cacheImages)
             }
+            topUINavigationController.present(galleryController, animated: true, completion: nil)
         }else if indexPath.row < row.value?.count ?? 0,
             let photos = row.value{
             var dataSource = [GirdImageRowDateSource].init()
@@ -153,7 +168,58 @@ public final class _GridImageCell : Cell<NSMutableArray>, UICollectionViewDataSo
     }
     
     
+}
+
+extension _GridImageCell : GalleryControllerDelegate{
+    public func galleryController(_ controller: GalleryController, didSelectImages images: [Gallery.Image]) {
+        cacheCart = controller.cart
+        row.value?.removeAllObjects()
+        Gallery.Image.resolve(images: images) { [weak self](resolveImages) in
+            for image in resolveImages{
+                if image != nil{
+                    self?.row.value?.add(image)
+                }
+            }
+            if let rowIndexPath = self?.row.indexPath{
+                self?.formViewController()?.tableView.reloadRows(at: [rowIndexPath], with: .none)
+            }else{
+                self?.formViewController()?.tableView.reloadData()
+            }
+        }
+         controller.dismiss(animated: true, completion: nil)
+    }
     
+    public func galleryController(_ controller: GalleryController, didSelectVideo video: Video) {
+        controller.dismiss(animated: true, completion: nil)
+    }
+    
+    public func galleryController(_ controller: GalleryController, requestLightbox images: [Gallery.Image]) {
+        print("requestLightbox")
+      //  controller.dismiss(animated: true, completion: nil)
+    }
+    
+    public func galleryControllerDidCancel(_ controller: GalleryController) {
+        controller.dismiss(animated: true, completion: nil)
+    }
+    
+    
+}
+
+extension _GridImageCell : GirdImageCollectionCellDelegate{
+    public func didTapDelete(_ indexPath: IndexPath) {
+        row.value?.removeObject(at: indexPath.row)
+        if indexPath.row < cacheCart?.images.count ?? 0,
+            let image = cacheCart?.images[indexPath.row]{
+            cacheCart?.remove(image)
+        }
+        
+        if let rowIndexPath = row.indexPath{
+            formViewController()?.tableView.reloadRows(at: [rowIndexPath], with: .none)
+//                .reloadRows(at: [rowIndexPath], with: .automatic)
+        }else{
+            formViewController()?.tableView.reloadData()
+        }
+    }
 }
 
 

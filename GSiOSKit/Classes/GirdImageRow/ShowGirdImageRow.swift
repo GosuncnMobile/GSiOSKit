@@ -129,23 +129,17 @@ public final class ShowGridImageCell : Cell<NSMutableArray>, UICollectionViewDat
     }
     
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let datasource = row.value?.object(at: indexPath.row) else{
+        if indexPath.row < row.value?.count ?? 0,
+            let photos = row.value{
+            var dataSource = [GirdImageRowDateSource].init()
+            for photo in photos{
+                if let pp = photo as? GirdImageRowDateSource {
+                    dataSource.append(pp)
+                }
+            }
+            UIApplication.shared.getTopUINavigationController()?.pushViewController(PhotosPreviewViewController.init(dateSource: dataSource, currentPage: indexPath.row, title: "照片"), animated: true)
             return
         }
-        guard let rootVC = UIApplication.shared.keyWindow?.rootViewController else{
-            print("rootVC nil")
-            return;
-        }
-        var topVC = rootVC
-        while let tVC = topVC.presentedViewController{
-            topVC = tVC
-        }
-        guard let natVC = topVC as? UINavigationController else {
-            let natVC = UINavigationController(rootViewController: PhotoPreviewViewController(imagesource: datasource))
-            natVC.pushViewController(PhotoPreviewViewController(imagesource: datasource), animated: true)
-            return
-        }
-        natVC.pushViewController(PhotoPreviewViewController(imagesource: datasource), animated: true)
     }
     
     

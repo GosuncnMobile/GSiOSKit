@@ -151,7 +151,7 @@ public class PhotosPreviewViewController: UIViewController {
             maker.leading.trailing.top.bottom.equalToSuperview()
         }
         
-        
+        pageControl.currentPageIndicatorTintColor = UIApplication.shared.keyWindow?.tintColor
         view.addSubview(pageControl)
         pageControl.snp.makeConstraints { (maker) in
             maker.leading.equalToSuperview().offset(16)

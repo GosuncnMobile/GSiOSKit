@@ -35,7 +35,7 @@ iOS Common Library
   # s.resource_bundles = {
   #   'GSiOSKit' => ['GSiOSKit/Assets/*.png']
   # }
-
+  s.resource_bundles = { 'GSiOSKit' => ['GSiOSKit/Assets/*.xcassets']}
   # s.public_header_files = 'Pod/Classes/**/*.h'
   # s.frameworks = 'UIKit', 'MapKit'
   s.swift_version = '5.0'
@@ -44,6 +44,6 @@ iOS Common Library
   s.dependency 'SnapKit',    '~> 5.0.0'
   s.dependency 'Kingfisher'
   s.dependency 'Eureka'
-  s.dependency 'YPImagePicker',    '~> 4.0.0'
+  s.dependency 'Gallery'
   
 end

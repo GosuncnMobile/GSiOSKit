@@ -21,6 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         navVC.navigationBar.isTranslucent = false
         self.window?.rootViewController = navVC;
         self.window?.makeKeyAndVisible();
+        self.window?.tintColor = UIColor.blue
         return true
     }
 

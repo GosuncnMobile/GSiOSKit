@@ -1,7 +1,9 @@
 PODS:
   - Eureka (5.0.0)
+  - Gallery (2.2.0)
   - GSiOSKit (0.1.1):
     - Eureka
+    - Gallery
     - Kingfisher
     - RxCocoa (~> 4.0)
     - RxSwift (~> 4.0)
@@ -22,6 +24,7 @@ DEPENDENCIES:
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Eureka
+    - Gallery
     - Kingfisher
     - Nimble
     - Quick
@@ -35,7 +38,8 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Eureka: 0f64f477ec8ef6201c6fec143d60ff5c201cf654
-  GSiOSKit: a25b7fba8633183cc186761219164308391abc64
+  Gallery: 3f4c780c4b22906d6b0a5e55d12167cdc4b4fc5b
+  GSiOSKit: 84201c04693f9a9814e3d8c6e0ada8d702cc611b
   Kingfisher: 9c8f2cc6710334e06f32ba2b45e77707d5e2f0c9
   Nimble: 45f786ae66faa9a709624227fae502db55a8bdd0
   Quick: 58d203b1c5e27fff7229c4c1ae445ad7069a7a08

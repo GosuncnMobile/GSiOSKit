@@ -55,12 +55,14 @@ public class PhotoPreviewView: UIView {
     func setUpScrollView() {
         scrollView.snp.makeConstraints { (maker) in
             maker.leading.bottom.trailing.top.equalToSuperview()
+            maker.width.equalTo(UIScreen.main.bounds.size.width)
+            maker.height.equalTo(UIScreen.main.bounds.size.height)
         }
         scrollView.bouncesZoom = true;
         scrollView.maximumZoomScale = 3.0
         scrollView.minimumZoomScale = 1.0
         scrollView.isMultipleTouchEnabled = true
-        scrollView.scrollsToTop = false
+        scrollView.scrollsToTop = true
         scrollView.showsHorizontalScrollIndicator = true
         scrollView.showsVerticalScrollIndicator = true
         scrollView.autoresizingMask = .flexibleWidth
@@ -68,12 +70,18 @@ public class PhotoPreviewView: UIView {
         scrollView.canCancelContentTouches = true
         scrollView.alwaysBounceVertical = false
         scrollView.delegate = self
+        scrollView.bounces = false
+        scrollView.zoomScale = 1.0
+     //   scrollView.backgroundColor = UIColor.yellow
     }
     
     func setUpImageView() {
         imageView.snp.makeConstraints { (maker) in
-            maker.leading.bottom.trailing.top.equalToSuperview()
+            maker.leading.top.equalToSuperview()
+            maker.trailing.bottom.equalToSuperview()
             maker.width.equalTo(UIScreen.main.bounds.size.width)
+            maker.height.equalTo(UIScreen.main.bounds.size.height)
+           // maker.width.equalTo(UIScreen.main.bounds.size.width)
         }
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
