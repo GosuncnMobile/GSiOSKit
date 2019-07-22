@@ -142,7 +142,6 @@ public final class _GridImageCell : Cell<NSMutableArray>, UICollectionViewDataSo
         Config.initialTab = .imageTab
         Config.Grid.ArrowButton.tintColor = UIApplication.shared.keyWindow?.tintColor ?? UIColor.blue
         Config.Grid.FrameView.borderColor = UIApplication.shared.keyWindow?.tintColor ?? UIColor.blue
-      
         return gallery
         }()
     var cacheCart : Cart?
